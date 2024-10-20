@@ -1,0 +1,196 @@
+
+panel_command:
+  fields:
+    device_id:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Panel"
+    code:
+      example: "1234"
+      required: true
+      selector:
+        text:
+    command:
+      example:
+      required: true
+      selector:
+        select:
+          translation_key: "panel_command"
+          options:
+            - "unset"
+            - "set_a"
+            - "set_b"
+            - "set"
+            - "set_forced"
+            - "set_delayed"
+            - "set_delayed_forced"
+            - "clear_alerts"
+
+area_command:
+  fields:
+    device_id:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Alarm Area"
+    code:
+      example: "1234"
+      required: true
+      selector:
+        text:
+    command:
+      example:
+      required: true
+      selector:
+        select:
+          translation_key: "area_command"
+          options:
+            - "unset"
+            - "set_a"
+            - "set_b"
+            - "set"
+            - "set_forced"
+            - "set_delayed"
+            - "set_delayed_forced"
+
+zone_command:
+  fields:
+    device_id:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Alarm Zone"
+    code:
+      example: "1234"
+      required: true
+      selector:
+        text:
+    command:
+      example:
+      required: true
+      selector:
+        select:
+          translation_key: "zone_command"
+          options:
+            - "inhibit"
+            - "deinhibit"
+            - "isolate"
+            - "deisolate"
+
+output_command:
+  fields:
+    device_id:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Output"
+    code:
+      example: "1234"
+      required: true
+      selector:
+        text:
+    command:
+      example:
+      required: true
+      selector:
+        select:
+          translation_key: "output_command"
+          options:
+            - "reset"
+            - "set"
+
+door_command:
+  fields:
+    device_id:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Door"
+    code:
+      example: "1234"
+      required: true
+      selector:
+        text:
+    command:
+      example:
+      required: true
+      selector:
+        select:
+          translation_key: "door_command"
+          options:
+            - "open_momentarily"
+            - "open_permanently"
+            - "set_normal_mode"
+            - "lock"
+
+search_items:
+  fields:
+    start:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Door"
+    end:
+      example: "1234"
+      required: true
+      selector:
+        text:
+
+get_panel_arm_status:
+  fields:
+    device_id:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Panel"
+    arm_mode:
+      example:
+      required: true
+      selector:
+        select:
+          translation_key: "get_panel_arm_status"
+          options:
+            - "set_a"
+            - "set_b"
+            - "set"
+            - "set_forced"
+            - "set_delayed"
+            - "set_delayed_forced"
+
+get_area_arm_status:
+  fields:
+    device_id:
+      example:
+      required: true
+      selector:
+        device:
+          integration: spcbridge
+          model: "SPC Alarm Area"
+    arm_mode:
+      example:
+      required: true
+      selector:
+        select:
+          translation_key: "get_area_arm_status"
+          options:
+            - "set_a"
+            - "set_b"
+            - "set"
+            - "set_forced"
+            - "set_delayed"
+            - "set_delayed_forced"

@@ -1,0 +1,189 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "panel_alarm": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "panel_intrusion": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "panel_fire": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "panel_problem": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "panel_tamper": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "panel_verified": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "area_alarm": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "area_intrusion": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "area_fire": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "area_problem": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "area_tamper": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "area_verified": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "zone_alarm": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "zone_problem": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "zone_tamper": {
+        "default": "mdi:alarm-light-off-outline",
+        "state": {
+          "on": "mdi:alarm-light-outline",
+          "off": "mdi:alarm-light-off-outline"
+        }
+      },
+      "zone_inhibited": {
+        "default": "mdi:shield-outline",
+        "state": {
+          "on": "mdi:shield-off-outline",
+          "off": "mdi:shield-outline"
+        }
+      },
+      "zone_isolated": {
+        "default": "mdi:shield-outline",
+        "state": {
+          "on": "mdi:shield-off-outline",
+          "off": "mdi:shield-outline"
+        }
+      },
+      "output_state": {
+        "default": "mdi:lightbulb-outline",
+        "state": {
+          "on": "mdi:lightbulb-on-10",
+          "off": "mdi:lightbulb-outline"
+        }
+      }
+    },
+    "sensor": {
+      "panel_arm_mode": {
+        "default": "mdi:shield-off",
+        "state": {
+          "disarmed": "mdi:shield-off-outline",
+          "partset_a": "mdi:shield-half-full",
+          "partset_b": "mdi:shield-half-full",
+          "armed": "mdi:shield-check-outline",
+          "partset_a_partly": "mdi:shield-half-full",
+          "partset_b_partly": "mdi:shield-half-full",
+          "armed_partly": "mdi:shield-half-full",
+          "unknown": "mdi:shield-bug"
+        }
+      },
+      "panel_event": {
+        "default": "mdi:message-text-outline"
+      },
+      "area_arm_mode": {
+        "default": "mdi:shield-off",
+        "state": {
+          "disarmed": "mdi:shield-off-outline",
+          "partset_a": "mdi:shield-half-full",
+          "partset_b": "mdi:shield-half-full",
+          "armed": "mdi:shield-check-outline",
+          "unknown": "mdi:shield-bug"
+        }
+      },
+      "entry_granted": {
+        "default": "mdi:account-lock-open-outline"
+      },
+      "entry_denied": {
+        "default": "mdi:account-lock-outline"
+      },
+      "exit_granted": {
+        "default": "mdi:account-lock-open-outline"
+      },
+      "exit_denied": {
+        "default": "mdi:account-lock-outline"
+      },
+      "door_mode": {
+        "default": "mdi:lock-open-outline",
+        "state": {
+          "normal": "mdi:lock-open-outline",
+          "locked": "mdi:lock-outline",
+          "unlocked": "mdi:lock-open-variant-outline"
+        }
+      }
+    }
+  },
+  "services": {
+    "panel_command": "mdi:shield-check-outline",
+    "area_command": "mdi:shield-check-outline",
+    "zone_command": "mdi:shield-outline",
+    "output_command": "mdi:lightbulb-outline",
+    "door_command": "mdi:lock-open-outline",
+    "get_panel_arm_status": "mdi:shield-check-outline",
+    "get_area_arm_status": "mdi:shield-check-outline"
+  }
+}

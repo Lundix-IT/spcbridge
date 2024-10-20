@@ -1,0 +1,12 @@
+{
+  "domain": "spcbridge",
+  "version": "v0.5.0",
+  "name": "Vanderbilt SPC Bridge",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://www.lundix.se",
+  "integration_type": "hub",
+  "iot_class": "local_push",
+  "loggers": ["pyspcbridge"],
+  "requirements": ["pyspcbridge@git+https://github.com/Lundix-IT/pyspcbridge.git"]
+}

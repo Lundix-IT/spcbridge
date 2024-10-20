@@ -1,0 +1,478 @@
+{
+  "title": "Vanderbilt SPC Bridge",
+  "config": {
+    "abort": {
+      "already_configured": "The SPC Bridge is already configured",
+      "already_in_progress": "Configuration already in progress",
+      "no_bridges": "No SPC bridges discovered",
+      "unknown": "Unknown error"
+    },
+    "error": {
+      "invalid_ip_address": "Invalid IP address",
+      "cannot_connect": "Unable to connect to the SPC Bridge"
+    },
+    "step": {
+      "user": {
+        "title": "SPC Bridge",
+        "description": "To be able to integrate the Vanderbilt SPC alarm system, you will need a SPC Bridge from Lundix IT, available at www.lundix.se. Ensure that the SPC Bridge is properly configured and functioning before proceeding.",
+        "data": {
+          "ip_address": "SPC Bridge IP address",
+          "port": "SPC Bridge Port"
+        },
+        "submit": "Next"
+      },
+      "bridge_credentials": {
+        "title": "SPC Bridge API Credentials",
+        "description": "Enter the user credentials required for encrypted communication with the SPC Bridge. These credentials must match the API settings in the SPC Bridge, which should also have SSL enabled.",
+        "data": {
+          "get_username": "Username Queries (GET)",
+          "get_password": "Password Queries (GET)",
+          "put_username": "Username Commands (PUT)",
+          "put_password": "Password Commands (PUT)",
+          "ws_username": "Username Events (WS)",
+          "ws_password": "Password Events (WS)"
+        },
+        "submit": "Next"
+      },
+      "discovered": {
+        "title": "SPC Panel Data",
+        "description": "Successfully fetched following data from the SPC panel. In the next steps, you will decide how to include and create the devices in Home Assistant.\n{html}",
+        "data": {},
+        "submit": "Next"
+      },
+      "user_identify_method": {
+        "title": "Method to identify SPC Users",
+        "description": "Select a method to identify the SPC user by the entered Keypad code:\n\n**Include the SPC User ID in the Keypad Code**\n Enter the SPC user's ID followed by their PIN code. For example:\n * For a user with ID 3 and PIN code 1289, enter 31289.\n* For a user with ID 21 and PIN code 987077, enter 21987077.\n\n**Note:** This method is recommended because SPC user credentials do not need to be stored in Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system.\n\n**Link Keypad Codes to SPC Users**\nAlternatively, you can manually link the Keypad codes to the corresponding SPC credentials. If you choose this method, you have to define the linking table in the next step.",
+        "data": {},
+        "submit": "Next"
+      },
+      "spc_users": {
+        "title": "Link Keypad Codes to SPC Users",
+        "description": "For users who should be able to control the SPC system, such as arming or disarming, you should enter both the Keypad code and the SPC password, as follows:\n\n* **Keypad code**: This is the numeric code you enter in the Home Assistant Keypad. It is most convenient to set this code to match the user's PIN code in the SPC system.\n* **SPC Password**: This should match the user's web password in the SPC system. If the user does not have a web password, you should instead enter the user's PIN code.",
+        "data": {
+        },
+        "submit": "Next"
+      },
+      "alarm_areas": {
+        "title": "Alarm Areas",
+        "data": {
+          "include_areas": "Include following alarm areas:"
+        },
+        "submit": "Next"
+      },
+      "alarm_zones": {
+        "title": "Alarm Zones",
+	"description": "Select inclusion sensor type for each alarm zone",
+        "data": {
+        },
+        "submit": "Next"
+      },
+      "outputs": {
+        "title": "Outputs",
+        "data": {
+          "no_outputs": "No outputs are available",
+          "include_outputs": "Include following outputs:"
+        },
+        "submit": "Next"
+      },
+      "doors": {
+        "title": "Door Locks",
+        "data": {
+          "no_doors": "No door locks are available",
+          "include_doors": "Include following door locks:"
+        },
+        "submit": "Next"
+      },
+      "confirm": {
+        "title": "Confirm",
+        "description": "Confirm the configuration. Click \"Submit\" to save and create the devices.\n{html}",
+        "data": {},
+        "submit": "Submit"
+      }
+    }
+  },
+  "options": {
+    "abort": {
+      "already_configured": "The SPC Bridge is already configured",
+      "no_bridges": "No SPC bridges discovered",
+      "unknown": "Unknown error"
+    },
+    "error": {
+      "invalid_ip_address": "Invalid IP address",
+      "cannot_connect": "Unable to connect to the SPC Bridge"
+    },
+    "step": {
+      "init": {
+        "title": "Reconfigure SPC integration",
+        "menu_options": {
+          "option_user_identify_method": "SPC Users",
+          "option_bridge": "SPC Bridge",
+          "option_alarm_areas": "Alarm Areas",
+          "option_alarm_zones": "Alarm Zones",
+          "option_outputs": "Outputs",
+          "option_doors": "Door Locks"
+        }
+      },
+      "option_bridge": {
+        "title": "SPC Bridge",
+        "description": "To be able to integrate the Vanderbilt SPC alarm system, you will need a SPC Bridge from Lundix IT, available at www.lundix.se. Ensure that the SPC Bridge is properly configured and functioning before proceeding.",
+        "data": {
+          "ip_address": "SPC Bridge IP address",
+          "port": "SPC Bridge Port"
+        },
+        "submit": "Next"
+      },
+      "option_bridge_credentials": {
+        "title": "SPC Bridge API Credentials",
+        "description": "Enter the user credentials required for encrypted communication with the SPC Bridge. These credentials must match the API settings in the SPC Bridge, which should also have SSL enabled.",
+        "data": {
+          "get_username": "Username Queries (GET)",
+          "get_password": "Password Queries (GET)",
+          "put_username": "Username Commands (PUT)",
+          "put_password": "Password Commands (PUT)",
+          "ws_username": "Username Events (WS)",
+          "ws_password": "Password Events (WS)"
+        },
+        "submit": "Submit"
+      },
+      "option_user_identify_method": {
+        "title": "Method to identify SPC Users",
+        "description": "Select a method to identify the SPC user by the entered Keypad code:\n\n**Include the SPC User ID in the Keypad Code**\n Enter the SPC user's ID followed by their PIN code. For example:\n * For a user with ID 3 and PIN code 1289, enter 31289.\n* For a user with ID 21 and PIN code 987077, enter 21987077.\n\n**Note:** This method is recommended because SPC user credentials do not need to be stored in Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system.\n\n**Link Keypad Codes to SPC Users**\nAlternatively, you can manually link the Keypad codes to the corresponding SPC credentials. If you choose this method, you have to define the linking table in the next step.",
+        "data": {},
+        "submit": "Submit"
+      },
+      "option_spc_users": {
+        "title": "Link Keypad Codes to SPC Users",
+        "description": "For users who should be able to control the SPC system, such as arming or disarming, you should enter both the Keypad code and the SPC password, as follows:\n\n* **Keypad code**: This is the numeric code you enter in the Home Assistant Keypad. It is most convenient to set this code to match the user's PIN code in the SPC system.\n* **SPC Password**: This should match the user's web password in the SPC system. If the user does not have a web password, you should instead enter the user's PIN code.",
+        "data": {
+        },
+        "submit": "Submit"
+      },
+      "option_alarm_areas": {
+        "title": "Alarm Areas",
+        "data": {
+          "include_areas": "Included areas:"
+        },
+        "submit": "Submit"
+      },
+      "option_alarm_zones": {
+        "title": "Alarm Zones",
+	"description": "Selected sensor type for each alarm zone",
+        "data": {
+        },
+        "submit": "Submit"
+      },
+      "option_outputs": {
+        "title": "Outputs",
+        "data": {
+          "no_outputs": "No outputs are available",
+          "include_outputs": "Included outputs:"
+        },
+        "submit": "Submit"
+      },
+      "option_doors": {
+        "title": "Door Locks",
+        "data": {
+          "no_doors": "No door locks are available",
+          "include_doors": "Included door locks:"
+        },
+        "submit": "Submit"
+      }
+    }
+  },
+  "entity": {
+    "alarm_control_panel": {
+      "panel_mode": {
+        "name": "Mode"
+      },
+      "area_mode": {
+        "name": "Mode"
+      }
+    },
+    "binary_sensor": {
+      "panel_intrusion": {
+        "name": "Intrusion"
+      },
+      "panel_fire": {
+        "name": "Fire"
+      },
+      "panel_tamper": {
+        "name": "Tamper"
+      },
+      "panel_problem": {
+        "name": "Problem"
+      },
+      "panel_verified": {
+        "name": "Verified"
+      },
+      "area_intrusion": {
+        "name": "Intrusion"
+      },
+      "area_fire": {
+        "name": "Fire"
+      },
+      "area_tamper": {
+        "name": "Tamper"
+      },
+      "area_problem": {
+        "name": "Problem"
+      },
+      "area_verified": {
+        "name": "Verified"
+      },
+      "zone_alarm": {
+        "name": "Alarm"
+      },
+      "zone_tamper": {
+        "name": "Tamper"
+      },
+      "zone_problem": {
+        "name": "Problem"
+      },
+      "zone_inhibited": {
+        "name": "Inhibited"
+      },
+      "zone_isolated": {
+        "name": "Isolated"
+      },
+      "output_state": {
+        "name": "State"
+      }
+    },
+    "sensor": {
+      "panel_arm_mode": {
+        "name": "Arm mode",
+        "state": {
+          "disarmed": "Disarmed",
+          "partset_a": "Partset A",
+          "partset_b": "Partset B",
+          "armed": "Armed",
+          "partset_a_partly": "Partset A partly",
+          "partset_b_partly": "Partset B partly",
+          "armed_partly": "Armed partly",
+          "unknown": "Unknown"
+        }
+      },
+      "panel_event": {
+        "name": "Event message"
+      },
+      "area_arm_mode": {
+        "name": "Arm mode",
+        "state": {
+          "disarmed": "Disarmed",
+          "partset_a": "Partset A",
+          "partset_b": "Partset B",
+          "armed": "Armed",
+          "unknown": "Unknown"
+        }
+      },
+      "entry_granted": {
+        "name": "Last entry granted user"
+      },
+      "entry_denied": {
+        "name": "Last entry denied user"
+      },
+      "exit_granted": {
+        "name": "Last exit granted user"
+      },
+      "exit_denied": {
+        "name": "Last exit denied user"
+      },
+      "door_mode": {
+        "name": "Door Mode",
+        "state": {
+          "normal": "Normal",
+          "locked": "Locked",
+          "unlocked": "Unlocked"
+        }
+      }
+    }
+  },
+  "selector": {
+    "panel_command": {
+      "options": {
+        "unset": "Disarm (all areas)",
+        "set_a": "Partset A (all areas)",
+        "set_b": "Partset B (all areas)",
+        "set": "Arm (all areas)",
+        "set_forced": "Arm and bypass open zones (all areas)",
+        "set_delayed": "Arm delayed (all areas)",
+        "set_delayed_forced": "Arm delayed and bypass open zones (all areas)",
+        "clear_alerts": "Clear all alerts"
+      }
+    },
+    "area_command": {
+      "options": {
+        "unset": "Disarm",
+        "set_a": "Partset A",
+        "set_b": "Partset B",
+        "set": "Arm",
+        "set_forced": "Arm and bypass open zones",
+        "set_delayed": "Arm delayed",
+        "set_delayed_forced": "Arm delayed and bypass open zones"
+      }
+    },
+    "zone_command": {
+      "options": {
+        "inhibit": "Inhibit",
+        "deinhibit": "De-inhibit",
+        "isolate": "Isolate",
+        "deisolate": "De-isolate"
+      }
+    },
+    "output_command": {
+      "options": {
+        "reset": "Off",
+        "set": "On"
+      }
+    },
+    "door_command": {
+      "options": {
+        "open_momentarily": "Open momentarily (Only possible in Normal door mode)",
+        "open_permanently": "Set door mode to Unlocked",
+        "set_normal_mode": "Set door mode to Normal",
+        "lock": "Set door mode to Locked"
+      }
+    },
+    "get_panel_arm_status": {
+      "options": {
+        "set_a": "Partset A",
+        "set_b": "Partset B",
+        "set": "Arm",
+        "set_forced": "Arm and bypass open zones",
+        "set_delayed": "Arm delayed",
+        "set_delayed_forced": "Arm delayed and bypass open zones"
+      }
+    },
+    "get_area_arm_status": {
+      "options": {
+        "set_a": "Partset A",
+        "set_b": "Partset B",
+        "set": "Arm",
+        "set_forced": "Arm and bypass open zones",
+        "set_delayed": "Arm delayed",
+        "set_delayed_forced": "Arm delayed and bypass open zones"
+      }
+    }
+  },
+  "services": {
+    "panel_command": {
+      "name": "SPC Panel Command",
+      "description": "Service to send commands to a SPC Panel",
+      "fields": {
+        "device_id": {
+          "name": "Panel",
+          "description": "The panel device to control"
+        },
+        "code": {
+          "name": "User Code",
+          "description": ""
+        },
+        "command": {
+          "name": "Command",
+          "description": ""
+        }
+      }
+    },
+    "area_command": {
+      "name": "SPC Area Command",
+      "description": "Service to send commands to a SPC Alarm Area",
+      "fields": {
+        "device_id": {
+          "name": "Alarm Area",
+          "description": "The alarm area device to control"
+        },
+        "code": {
+          "name": "User Code",
+          "description": ""
+        },
+        "command": {
+          "name": "Command",
+          "description": ""
+        }
+      }
+    },
+    "zone_command": {
+      "name": "SPC Zone Command",
+      "description": "Service to send commands to a SPC Alarm Zone",
+      "fields": {
+        "device_id": {
+          "name": "Alarm Zone",
+          "description": "The alarm zone device to control"
+        },
+        "code": {
+          "name": "User Code",
+          "description": ""
+        },
+        "command": {
+          "name": "Command",
+          "description": ""
+        }
+      }
+    },
+    "output_command": {
+      "name": "SPC Output",
+      "description": "Service to send commands to a SPC Output (Mapping Gate or Virtual Zone)",
+      "fields": {
+        "device_id": {
+          "name": "SPC Output",
+          "description": "The output device to control"
+        },
+        "code": {
+          "name": "User Code",
+          "description": ""
+        },
+        "command": {
+          "name": "Command",
+          "description": ""
+        }
+      }
+    },
+    "door_command": {
+      "name": "SPC Door Command",
+      "description": "Service to send commands to a SPC Door station",
+      "fields": {
+        "device_id": {
+          "name": "SPC Door",
+          "description": "The door device to control"
+        },
+        "code": {
+          "name": "User Code",
+          "description": ""
+        },
+        "command": {
+          "name": "Command",
+          "description": ""
+        }
+      }
+    },
+    "get_panel_arm_status": {
+      "name": "Get SPC Panel Arm Status",
+      "description": "Service to get arm status for a SPC Panel",
+      "fields": {
+        "device_id": {
+          "name": "Panel",
+          "description": "Panel to query"
+        },
+        "arm_mode": {
+          "name": "Arm Mode",
+          "description": ""
+        }
+      }
+    },
+    "get_area_arm_status": {
+      "name": "Get SPC Area Arm Status",
+      "description": "Service to get arm status for a SPC Alarm Area",
+      "fields": {
+        "device_id": {
+          "name": "Alarm Area",
+          "description": "Alarm area to query"
+        },
+        "arm_mode": {
+          "name": "Arm Mode",
+          "description": ""
+        }
+      }
+    }
+  }
+}
