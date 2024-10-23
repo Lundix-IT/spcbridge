@@ -24,8 +24,11 @@ The SPC Bridge HA integration consists of following parts:
 - Support for multiple SPC systems (however a SPC Bridge is required for each SPC system)
 
 ## Installation
-1. Download the latest release as a zip file and extract it into the `custom_components` folder in your HA installation.
+Before proceeding with the installation of this custom integration, make sure you have the the SPC Bridge Generic (lite) installed and properly configured. 
+Additionally, you will need access to the Home Assistant filesystem, such as through the SSH add-on.
+
+1. Download the latest release as a zip file and extract it into the `config/custom_components` directory in your HA installation. (If the `custom_components` directory does not exist, create it.)
 2. Restart HA to load the integration into HA.
-3. Go to Configuration -> Integrations and click the big orange '+' button. Look for SPC Bridge and click to add it.
+3. Go to Settings -> Devices & services and click on the Add integration button. Look for SPC Bridge and click to add it.
 4. Follow the configuration instructions.
-5. The SPC Bridge integration is ready for use.
+
