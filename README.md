@@ -29,6 +29,6 @@ Additionally, you will need access to the Home Assistant filesystem, such as thr
 
 1. Download the latest release as a zip file and extract it into the `config/custom_components` directory in your HA installation. (If the `custom_components` directory does not exist, create it.)
 2. Restart HA to load the integration into HA.
-3. Go to Settings -> Devices & services and click on the Add integration button. Look for SPC Bridge and click to add it.
+3. Go to **Settings -> Devices & services** and click on the **Add integration** button. Look for SPC Bridge and click to add it.
 4. Follow the configuration instructions.
 
