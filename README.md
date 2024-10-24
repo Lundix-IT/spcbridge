@@ -1,8 +1,11 @@
 # spcbridge
 ## Prerequisites
 - Vanderbilt SPC panel, firmware version >= 3.8.5
-- [SPC Bridge Generic Lite](https://www.lundix.se/spc-bridge-generic-lite/) or [SPC Bridge Generic](https://www.lundix.se/spc-bridge-generic/) from Lundix IT. **Please note!** The software module SPC Web Gateway isn't supported by this integration.
+- [SPC Bridge Generic Lite](https://www.lundix.se/spc-bridge-generic-lite/) or [SPC Bridge Generic](https://www.lundix.se/spc-bridge-generic/) from Lundix IT. 
 - Home Assistant system, Core version >= 2024.9.0, Frontend version >= 20240809.0
+
+> [!NOTE] 
+> The software module **SPC Web Gateway** isn't supported by this integration.
 
 ## Introduction
 Integrating your security system with Home Assistant (HA) can significantly enhance the functionality and convenience of your home automation. By using the motion detectors to control your lights and window sensors to control your HVAC system you can help maintain an ideal temperature and save money on your energy bills. You can also switch off all lights and close the water valve when you arm the security system and leave your home. This not only provides added security but also helps prevent damage in case of emergencies.
@@ -39,7 +42,8 @@ To be able to identify the SPC user by the entered Keypad code you have to selec
 Enter the SPC user's ID followed by their PIN code. For example:
 - For a user with ID 3 and PIN code 1289, enter 31289.
 - For a user with ID 21 and PIN code 987077, enter 21987077.
-**Note:** This method is recommended because SPC user credentials do not need to be stored in Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system.
+> [!NOTE] 
+> This method is recommended because SPC user credentials do not need to be stored in Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system.
 
 #### Method 2 - Link Keypad Codes to SPC Users
 Manually link the Keypad codes to the corresponding SPC credentials. If you choose this method, you have to define the linking table in the configuration of the integration.
@@ -72,7 +76,7 @@ Logical representation of the alarm areas.
 #### Entities
 | Entity             | Entity ID                                 | Values                  | Description                                    |
 | ------------------ | ----------------------------------------- | ----------------------- | ---------------------------------------------- |
-| `Arm mode`         | `sensor.<device_name>_arm_mode`           | `Sisarmed`, `Partset A`, `Partset B`, `Armed`, `Unknown`   | The current active arm mode.                |
+| `Arm mode`         | `sensor.<device_name>_arm_mode`           | `Disarmed`, `Partset A`, `Partset B`, `Armed`, `Unknown`   | The current active arm mode.                |
 | `Fire`             | `binary_sensor.<device_name>_fire`        | `Off`, `On`             | Alarm area has an active fire alarm                |
 | `Intrusion`        | `binary_sensor.<device_name>_intrusion`   | `Off`, `On`             | Alarm area has an active intrusion alarm           |
 | `Problem`          | `binary_sensor.<device_name>_problem`     | `Off`, `On`             | Alarm area has an active problem alarm             |
@@ -88,20 +92,20 @@ The entity `Arm mode` has following extra attributes that can be used for automa
 
 #### Triggers
 `Arm mode` as trigger is available as a **Entity** trigger (**Add trigger -> Entity -> State**). Select the `Arm mode` entity and the from/to values.<br>
-**Example:**  When Garage Arm mode changes from Disarmed to Armed
+*Example:*  `When Garage Arm mode changes from Disarmed to Armed`
 
-The entities `Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** triggers.
-**Example:** Garage Intrusion turned on
+`Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** triggers.<br>
+*Example:* `Garage Intrusion turned on`
 
 #### Conditions
 `Arm mode` as condition is available as a **Entity** condition (**Add condition -> Entity -> State**). Select the `Arm mode` entity and the state.<br>
-**Example:**  Confirm Garagae Arm mode is Disarmed
+*Example:*  `Confirm Garagae Arm mode is Disarmed`
 
-The entities `Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** conditions.
-**Example:** Garage Intrusion is on
+`Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** conditions.<br>
+*Example:* `Garage Intrusion is on`
 
 The attributes `Last disarmed/armed user` is available as **Entity** conditions (**Add condition -> Entity -> State**). Select the `Arm mode` entity, the attribute `Last disarmed/armed user` and enter the name of the SPC user in the state field.<br>
-**Example:** Confirm Last armed user of Garage is John
+*Example:* `Confirm Last armed user of Garage is John`
 
 #### Actions
 
