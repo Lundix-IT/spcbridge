@@ -87,7 +87,22 @@ The entity `Arm mode` has following extra attributes that can be used for automa
 | `Last armed user`       | SPC user name                          | The name of the SPC user who last armed (fullset) the area    |
 
 #### Triggers
+`Arm mode` as trigger is available as a **Entity** trigger (**Add trigger -> Entity -> State**). Select the `Arm mode` entity and the from/to values.<br>
+**Example:**  When Garage Arm mode changes from Disarmed to Armed
+
+The entities `Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** triggers.
+**Example:** Garage Intrusion turned on
+
 #### Conditions
+`Arm mode` as condition is available as a **Entity** condition (**Add condition -> Entity -> State**). Select the `Arm mode` entity and the state.<br>
+**Example:**  Confirm Garagae Arm mode is Disarmed
+
+The entities `Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** conditions.
+**Example:** Garage Intrusion is on
+
+The attributes `Last disarmed/armed user` is available as **Entity** conditions (**Add condition -> Entity -> State**). Select the `Arm mode` entity, the attribute `Last disarmed/armed user` and enter the name of the SPC user in the state field.<br>
+**Example:** Confirm Last armed user of Garage is John
+
 #### Actions
 
 ### Alarm Zones
