@@ -43,7 +43,9 @@
       "user_identify_method": {
         "title": "Method to identify SPC Users",
         "description": "Select a method to identify the SPC user by the entered Keypad code:\n\n**Include the SPC User ID in the Keypad Code**\n Enter the SPC user's ID followed by their PIN code. For example:\n * For a user with ID 3 and PIN code 1289, enter 31289.\n* For a user with ID 21 and PIN code 987077, enter 21987077.\n\n**Note:** This method is recommended because SPC user credentials do not need to be stored in Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system.\n\n**Link Keypad Codes to SPC Users**\nAlternatively, you can manually link the Keypad codes to the corresponding SPC credentials. If you choose this method, you have to define the linking table in the next step.",
-        "data": {},
+        "data": {
+          "user_identify_method": "Method"
+        },
         "submit": "Next"
       },
       "spc_users": {
@@ -138,7 +140,9 @@
       "option_user_identify_method": {
         "title": "Method to identify SPC Users",
         "description": "Select a method to identify the SPC user by the entered Keypad code:\n\n**Include the SPC User ID in the Keypad Code**\n Enter the SPC user's ID followed by their PIN code. For example:\n * For a user with ID 3 and PIN code 1289, enter 31289.\n* For a user with ID 21 and PIN code 987077, enter 21987077.\n\n**Note:** This method is recommended because SPC user credentials do not need to be stored in Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system.\n\n**Link Keypad Codes to SPC Users**\nAlternatively, you can manually link the Keypad codes to the corresponding SPC credentials. If you choose this method, you have to define the linking table in the next step.",
-        "data": {},
+        "data": {
+          "user_identify_method": "Method"
+        },
         "submit": "Submit"
       },
       "option_spc_users": {

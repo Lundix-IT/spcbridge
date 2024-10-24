@@ -168,7 +168,7 @@ class SpcAreaArmModeSensor(SpcAreaEntity, SensorEntity):
             "entrytime": self._area.entrytime,
             "zone_ids": [z.id for z in self._area.zones],
             "last_disarmed_user": self._area.unset_user,
-            "last_armed_away_user": self._area.set_user,
+            "last_armed_user": self._area.set_user,
         }
 
     @property
@@ -182,8 +182,8 @@ class SpcAreaArmModeSensor(SpcAreaEntity, SensorEntity):
         return self._area.unset_user
 
     @property
-    def last_armed_away_user(self) -> str:
-        """Return the user who last armed away the area"""
+    def last_armed_user(self) -> str:
+        """Return the user who last armed the area"""
         return self._area.set_user
 
 class SpcDoorModeSensor(SpcDoorEntity, SensorEntity):

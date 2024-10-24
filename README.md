@@ -1,7 +1,7 @@
 # spcbridge
 ## Prerequisites
 - Vanderbilt SPC panel, firmware version >= 3.8.5
-- [SPC Bridge Generic Lite](https://www.lundix.se/spc-bridge-generic-lite/) or [SPC Bridge Generic](https://www.lundix.se/spc-bridge-generic/) from Lundix IT. **Please note!** The software module SPC Web Gateway isn't supported.
+- [SPC Bridge Generic Lite](https://www.lundix.se/spc-bridge-generic-lite/) or [SPC Bridge Generic](https://www.lundix.se/spc-bridge-generic/) from Lundix IT. **Please note!** The software module SPC Web Gateway isn't supported by this integration.
 - Home Assistant system, Core version >= 2024.9.0, Frontend version >= 20240809.0
 
 ## Introduction
@@ -84,7 +84,7 @@ The entity `Arm mode` has following extra attributes that can be used for automa
 | Attribute               | Values                                 | Description                                                |
 | ----------------------- | ---------------------------------------| ---------------------------------------------------------- |
 | `Last disarmed user`    | SPC user name                          | The name of the SPC user who last disarmed the area        | 
-| `Last armed away user`  | SPC user name                          | The name of the SPC user who last armed (away) the area    |
+| `Last armed user`       | SPC user name                          | The name of the SPC user who last armed (fullset) the area    |
 
 #### Triggers
 #### Conditions
