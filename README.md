@@ -36,7 +36,7 @@ Additionally, you will need access to the Home Assistant filesystem, such as thr
 4. Follow the configuration instructions.
 
 ## User and Pin codes
-To be able to identify the SPC user by the entered Keypad code you have to select between two methods:
+To be able to identify the SPC user by the entered Keypad code (or user code in automaion actions) you have to select between two methods:
 
 #### Method 1 - Include the SPC User ID in the Keypad Code
 Enter the SPC user's ID followed by their PIN code. For example:
@@ -66,9 +66,33 @@ Logical representation of the Alarm System (all areas).
 | `Problem`          | `binary_sensor.<device_name>_problem`     | `Off`, `On`             | System has an active problem alarm             |
 | `Tamper`           | `binary_sensor.<device_name>_tamper`      | `Off`, `On`             | System has an active tamper alarm              |
 | `Verified`         | `binary_sensor.<device_name>_verified`    | `Off`, `On`             | System has an active verified alarm            |
-#### Triggers
-#### Conditions
-#### Actions
+
+#### Automation Triggers
+`Arm mode` is available as an **Entity** trigger. Click **Add trigger -> Entity -> State** and select the `<device name> Arm mode` entity and the from/to values.<br>
+*Example:*  `When SPC4000 Arm mode changes from Disarmed to Armed`
+
+`Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** triggers.<br>
+*Example:* `Garage Intrusion turned on`
+
+#### Automation Conditions
+`Arm mode` is available as an **Entity** condition. Click **Add condition -> Entity -> State** and select the `<device name> Arm mode` entity and the state.<br>
+*Example:*  `Confirm SPC4000 Arm mode is Disarmed`
+
+`Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** conditions.<br>
+*Example:* `SPC4000 Intrusion is on`
+
+#### Automation Actions
+Following commands are available for controlling a Alarm System (panel):
+- Disarm (all areas)
+- Partset A (all areas)
+- Partset B (all areas)
+- Arm (all areas)
+- Arm and bypass open zones (all areas)
+- Arm delayed (all areas)
+- Arm delayed and bypass open zones (all areas)
+- Clear all alerts
+
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Panel Command** and select an Alarm System and command. You need also enter a user code, see section **User and PIN codes** above. 
 
 ### Alarm Areas
 **Device Name:** Area name defined in SPC<br>
@@ -90,24 +114,34 @@ The entity `Arm mode` has following extra attributes that can be used for automa
 | `Last disarmed user`    | SPC user name                          | The name of the SPC user who last disarmed the area        | 
 | `Last armed user`       | SPC user name                          | The name of the SPC user who last armed (fullset) the area    |
 
-#### Triggers
-`Arm mode` as trigger is available as a **Entity** trigger (**Add trigger -> Entity -> State**). Select the `Arm mode` entity and the from/to values.<br>
+#### Automation Triggers
+`Arm mode` is available as an **Entity** trigger. CLick **Add trigger -> Entity -> State** and select the `Arm mode` entity and the from/to values.<br>
 *Example:*  `When Garage Arm mode changes from Disarmed to Armed`
 
 `Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** triggers.<br>
 *Example:* `Garage Intrusion turned on`
 
-#### Conditions
-`Arm mode` as condition is available as a **Entity** condition (**Add condition -> Entity -> State**). Select the `Arm mode` entity and the state.<br>
-*Example:*  `Confirm Garagae Arm mode is Disarmed`
+#### Automation Conditions
+`Arm mode` is available as an **Entity** condition. Click **Add condition -> Entity -> State** and select the `Arm mode` entity and the state.<br>
+*Example:*  `Confirm Garage Arm mode is Disarmed`
 
 `Fire`, `Intrusion`, `Problem`, `Tamper` and `Verified` can be used as both **Device** and **Entity** conditions.<br>
 *Example:* `Garage Intrusion is on`
 
-The attributes `Last disarmed/armed user` is available as **Entity** conditions (**Add condition -> Entity -> State**). Select the `Arm mode` entity, the attribute `Last disarmed/armed user` and enter the name of the SPC user in the state field.<br>
+The attributes `Last disarmed/armed user` is available as **Entity** conditions. Click **Add condition -> Entity -> State** and select the `Arm mode` entity, the attribute `Last disarmed/armed user` and enter the name of the SPC user in the state field.<br>
 *Example:* `Confirm Last armed user of Garage is John`
 
-#### Actions
+#### Automation Actions
+Following commands are available for controlling alarm areas:
+- Disarm
+- Partset A
+- Partset B
+- Arm
+- Arm and bypass open zones
+- Arm delayed
+- Arm delayed and bypass open zones
+
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Area Command** and select an Alarm Area and command. You need also enter a user code, see section **User and PIN codes** above. 
 
 ### Alarm Zones
 **Device Name:** Zone name defined in SPC<br>
@@ -134,6 +168,23 @@ You determine the zones's sensor type when you include the section in Home Assis
 | `Inhibited`        | `binary_sensor.<device_name>_inhibited`   | `Off`, `On`             | Zone is inhibited                              |
 | `Isolated`         | `binary_sensor.<device_name>_isolated`    | `Off`, `On`             | Zone is isolated                               |
 
+#### Automation Triggers
+All zone entities can be used as both **Device** and **Entity** triggers.<br>
+*Example:* `PIR Living Room started detecting motion`
+
+#### Automation Conditions
+All zone entities can be used as both **Device** and **Entity** conditions.<br>
+*Example:* `Bed Room Window is open`
+
+#### Automation Actions
+Following commands are available for controlling alarm zones:
+- Inhibit
+- De-inhibit
+- Isolate
+- De-isolate
+
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Zone Command** and select an Alarm Zone and command. You need also enter a user code, see section **User and PIN codes** above. 
+
 ### Outputs (mapping gates and virtual zones)
 **Device Name:** Name of mapping gate defined in SPC<br>
 Logical representation of the SPC system's mapping gates and virtual zone.
@@ -142,6 +193,20 @@ Logical representation of the SPC system's mapping gates and virtual zone.
 | ------------------ | ----------------------------------------- | ----------------------- | ---------------------------------------------- |
 | `State`            | `binary_sensor.<device_name>_state`       | `Off`, `On`             | Mapping gate state is off or on                |
 
+#### Automation Triggers
+The `State` entity can be used as both a **Device** and an **Entity** trigger.<br>
+*Example:* `Outdoor lighting State turned on`
+
+#### Automation Conditions
+The ´State` entity can be used as both a **Device** and an **Entity** condition.<br>
+*Example:* `Outdoor lighting State is on`
+
+#### Automation Actions
+Following commands are available for controlling outputs:
+- On
+- Off
+
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Output Command** and select an Output and command. You need also enter a user code, see section **User and PIN codes** above. 
 
 ### Door Locks
 **Device Name:** Name of door defined in SPC<br>
@@ -155,4 +220,20 @@ Logical representation of the SPC system's door locks.
 | `Last exit denied user`     | `sensor.<device_name>_last_exit_denied_user`    | SPC user name           | Name of user who was last denied exit          |
 | `Last exit granted user`    | `sensor.<device_name>_last_exit_granted_user`   | SPC user name           | Name of user who was last granted exit         |
 
+#### Automation Triggers
+`Door Mode` is available as an **Entity** trigger. Click **Add trigger -> Entity -> State** and select the `<device name> Door Mode` entity and the from/to values.<br>
+*Example:*  `When Entrance Door Mode changes from Locked to Unlocked`
+
+#### Automation Conditions
+All door locks entities are available as **Entity** conditions. Click **Add condition -> Entity -> State** and select entity and state.<br>
+*Example:* `Confirm Entrance Last entry granted user is John`
+
+#### Automation Actions
+Following commands are available for controlling door locks:
+- Open momentarily (Only possible in Normal door mode)
+- Set door mode to Unlocked
+- Set door mode to Normal
+- Set door mode to Locked
+
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Door Command** and select a Door and command. You need also enter a user code, see section **User and PIN codes** above. 
 
