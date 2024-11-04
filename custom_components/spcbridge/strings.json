@@ -415,7 +415,7 @@
       }
     },
     "output_command": {
-      "name": "SPC Output",
+      "name": "SPC Output Command",
       "description": "Service to send commands to a SPC Output (Mapping Gate or Virtual Zone)",
       "fields": {
         "device_id": {
