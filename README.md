@@ -30,7 +30,7 @@ The SPC Bridge HA integration consists of following parts:
 Before proceeding with the installation of this custom integration, make sure you have the the SPC Bridge Generic (lite) installed and properly configured. 
 Additionally, you will need access to the Home Assistant filesystem, such as through the SSH add-on.
 
-1. Download the latest release as a zip file and extract it into the `config/custom_components` directory in your HA installation. (If the `custom_components` directory does not exist, create it.)
+1. Download the <a href="https://github.com/Lundix-IT/spcbridge/releases">latest release</a> of the **spcbridge.zip** file and extract it into the `config/custom_components` directory in your HA installation. (If the `custom_components` directory does not exist, create it.)
 2. Restart HA to load the integration into HA.
 3. Go to **Settings -> Devices & services** and click on the **Add integration** button. Look for SPC Bridge and click to add it.
 4. Follow the configuration instructions.
@@ -43,7 +43,7 @@ Enter the SPC user's ID followed by their PIN code. For example:
 - For a user with ID 3 and PIN code 1289, enter 31289.
 - For a user with ID 21 and PIN code 987077, enter 21987077.
 > [!NOTE] 
-> This method is recommended because SPC user credentials do not need to be stored in Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system.
+> This method is recommended because SPC user credentials do not need to be stored in the Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system. The user profile for the user also need to have **User Rights - System > Web Access** enabled. 
 
 #### Method 2 - Link Keypad Codes to SPC Users
 Manually link the Keypad codes to the corresponding SPC credentials. If you choose this method, you have to define the linking table in the configuration of the integration.
