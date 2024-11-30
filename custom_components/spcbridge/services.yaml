@@ -134,21 +134,6 @@ door_command:
             - "set_normal_mode"
             - "lock"
 
-search_items:
-  fields:
-    start:
-      example: "1234"
-      required: true
-      selector:
-        device:
-          integration: spcbridge
-          model: "SPC Door"
-    end:
-      example: "1234"
-      required: true
-      selector:
-        text:
-
 get_panel_arm_status:
   fields:
     device_id:
