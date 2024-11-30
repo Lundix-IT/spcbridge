@@ -137,7 +137,7 @@ door_command:
 search_items:
   fields:
     start:
-      example:
+      example: "1234"
       required: true
       selector:
         device:
