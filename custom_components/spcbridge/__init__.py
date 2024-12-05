@@ -40,6 +40,7 @@ from .const import (
     CONF_USERS_DATA,
     ATTR_COMMAND,
 )
+from .utils import get_host
 
 from homeassistant.core import (
     HomeAssistant, 
@@ -314,6 +315,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         manufacturer = "Lundix IT",
         model = "SPC Bridge",
         name = "SPC Bridge",
+        configuration_url=f"http://{get_host(entry.options[CONF_IP_ADDRESS])}",
     )
     
     # Remove devices that have been manually excluded or changed in the 
