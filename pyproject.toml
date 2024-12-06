@@ -1,6 +1,5 @@
 [tool.ruff]
 line-length = 88
-required-version = ">=0.6.8"
 
 [tool.ruff.lint]
 select = [

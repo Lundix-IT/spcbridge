@@ -1,7 +1,6 @@
+from ipaddress import IPv6Address, ip_address
 from types import MappingProxyType
 from typing import Any, cast
-
-from ipaddress import IPv6Address, ip_address
 
 from pyspcbridge.const import ArmMode, DoorMode
 
@@ -15,8 +14,10 @@ ARM_MODE_TO_NAME = {
     ArmMode.PARTLY_FULL_SET: "armed_partly",
 }
 
+
 def arm_mode_to_name(mode):
     return ARM_MODE_TO_NAME.get(mode, "unknown")
+
 
 DOOR_MODE_TO_NAME = {
     DoorMode.NORMAL: "normal",
@@ -24,8 +25,10 @@ DOOR_MODE_TO_NAME = {
     DoorMode.UNLOCKED: "unlocked",
 }
 
+
 def door_mode_to_name(mode):
     return DOOR_MODE_TO_NAME.get(mode, "unknown")
+
 
 def get_host(host: str) -> str:
     """Get the device IP address or hostname."""

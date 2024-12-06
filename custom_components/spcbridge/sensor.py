@@ -1,66 +1,54 @@
 """SPC"""
+
 from __future__ import annotations
 
 import logging
+
 _LOGGER = logging.getLogger(__name__)
 
+import voluptuous as vol
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import ATTR_ENTITY_ID, CONF_CODE, EntityCategory
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import config_validation as cv, entity_platform
+from homeassistant.helpers.config_validation import make_entity_service_schema
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.util.json import json_loads
 from pyspcbridge import SpcBridge
-from pyspcbridge.panel import Panel
 from pyspcbridge.area import Area
 from pyspcbridge.const import ArmMode
 from pyspcbridge.door import Door
-import voluptuous as vol
+from pyspcbridge.panel import Panel
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-)
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EntityCategory
-from homeassistant.core import HomeAssistant, callback
-from homeassistant.util.json import json_loads
-from homeassistant.helpers import entity_platform
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers import config_validation as cv
-from homeassistant.helpers.config_validation import make_entity_service_schema
-
-from homeassistant.const import (
-    CONF_CODE,
-    ATTR_ENTITY_ID,
-)
-
-from .const import (
-    DOMAIN,
-    CONF_DOORS_INCLUDE_DATA,
-    CONF_AREAS_INCLUDE_DATA
-)
-from .entity import SpcPanelEntity, SpcAreaEntity, SpcDoorEntity
+from .const import CONF_AREAS_INCLUDE_DATA, CONF_DOORS_INCLUDE_DATA, DOMAIN
+from .entity import SpcAreaEntity, SpcDoorEntity, SpcPanelEntity
 from .utils import arm_mode_to_name, door_mode_to_name
 
+
 async def async_setup_entry(
-    hass: HomeAssistant,
-    entry: ConfigEntry,
-    async_add_entities: AddEntitiesCallback
+    hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     """Set up SPC sensors based on config entry."""
     api: SpcBridge = hass.data[DOMAIN][entry.entry_id]
     entities = []
-    entities.append( SpcPanelArmModeSensor(entry, api.panel) )
-    entities.append( SpcPanelEventSensor(entry, api.panel) )
+    entities.append(SpcPanelArmModeSensor(entry, api.panel))
+    entities.append(SpcPanelEventSensor(entry, api.panel))
 
     for area in api.areas.values():
         if entry.options[CONF_AREAS_INCLUDE_DATA].get(str(area.id)) == "include":
-            entities.append( SpcAreaArmModeSensor(entry, area) )
+            entities.append(SpcAreaArmModeSensor(entry, area))
 
     for door in api.doors.values():
         if entry.options[CONF_DOORS_INCLUDE_DATA].get(str(door.id)) == "include":
-            entities.append( SpcDoorModeSensor(entry, door) )
-            entities.append( SpcDoorEntryGrantedSensor(entry, door) )
-            entities.append( SpcDoorEntryDeniedSensor(entry, door) )
-            entities.append( SpcDoorExitGrantedSensor(entry, door) )
-            entities.append( SpcDoorExitDeniedSensor(entry, door) )
+            entities.append(SpcDoorModeSensor(entry, door))
+            entities.append(SpcDoorEntryGrantedSensor(entry, door))
+            entities.append(SpcDoorEntryDeniedSensor(entry, door))
+            entities.append(SpcDoorExitGrantedSensor(entry, door))
+            entities.append(SpcDoorExitDeniedSensor(entry, door))
 
     async_add_entities(entities)
+
 
 class SpcPanelArmModeSensor(SpcPanelEntity, SensorEntity):
     """Representation of SPC panel arm mode."""
@@ -72,14 +60,14 @@ class SpcPanelArmModeSensor(SpcPanelEntity, SensorEntity):
         super().__init__(entry=entry, panel=panel, suffix="arm_mode")
         self._attr_device_class = SensorDeviceClass.ENUM
         self._attr_options = [
-           "disarmed",
-           "partset_a",
-           "partset_b",
-           "armed",
-           "partset_a_partly",
-           "partset_b_partly",
-           "armed_partly",
-           "unknown"
+            "disarmed",
+            "partset_a",
+            "partset_b",
+            "armed",
+            "partset_a_partly",
+            "partset_b_partly",
+            "armed_partly",
+            "unknown",
         ]
 
     @property
@@ -109,6 +97,7 @@ class SpcPanelArmModeSensor(SpcPanelEntity, SensorEntity):
         """Return the user who last changed panel arm mode"""
         return self._panel.changed_by
 
+
 class SpcPanelEventSensor(SpcPanelEntity, SensorEntity):
     """Representation of sia events from SPC panel."""
 
@@ -117,7 +106,7 @@ class SpcPanelEventSensor(SpcPanelEntity, SensorEntity):
     def __init__(self, entry: ConfigEntry, panel: Panel) -> None:
         """Initialize the sensor device."""
         super().__init__(entry=entry, panel=panel, suffix="event")
-        self._attr_device_class = None    # There is no specific class for alarm
+        self._attr_device_class = None  # There is no specific class for alarm
 
     @property
     def native_value(self) -> str | None:
@@ -127,10 +116,11 @@ class SpcPanelEventSensor(SpcPanelEntity, SensorEntity):
             event = json_loads(self._panel.event)
             keys = ["ev_desc", "area_name", "zone_name", "mg_name", "door_name"]
             for key in keys:
-                if (v := event.get(key)):
-                   m.append(v)
+                if v := event.get(key):
+                    m.append(v)
             value = " - ".join(m)
         return value
+
 
 class SpcAreaArmModeSensor(SpcAreaEntity, SensorEntity):
     """Representation of SPC area arm mode."""
@@ -141,13 +131,7 @@ class SpcAreaArmModeSensor(SpcAreaEntity, SensorEntity):
         """Initialize the sensor device."""
         super().__init__(entry=entry, area=area, suffix="arm_mode")
         self._attr_device_class = SensorDeviceClass.ENUM
-        self._attr_options = [
-           "disarmed",
-           "partset_a",
-           "partset_b",
-           "armed",
-           "unknown"
-        ]
+        self._attr_options = ["disarmed", "partset_a", "partset_b", "armed", "unknown"]
 
     @property
     def native_value(self) -> str | None:
@@ -186,6 +170,7 @@ class SpcAreaArmModeSensor(SpcAreaEntity, SensorEntity):
         """Return the user who last armed the area"""
         return self._area.set_user
 
+
 class SpcDoorModeSensor(SpcDoorEntity, SensorEntity):
     """Representation of door mode."""
 
@@ -195,12 +180,7 @@ class SpcDoorModeSensor(SpcDoorEntity, SensorEntity):
         """Initialize the sensor device."""
         super().__init__(entry=entry, door=door, suffix="mode")
         self._attr_device_class = SensorDeviceClass.ENUM
-        self._attr_options = [
-           "unlocked",
-           "normal",
-           "locked",
-           "unknown"
-        ]
+        self._attr_options = ["unlocked", "normal", "locked", "unknown"]
 
     @property
     def native_value(self) -> str | None:
@@ -214,6 +194,7 @@ class SpcDoorModeSensor(SpcDoorEntity, SensorEntity):
             "mode": self._door.mode,
         }
 
+
 class SpcDoorEntryGrantedSensor(SpcDoorEntity, SensorEntity):
     """Representation of entry granted user."""
 
@@ -222,11 +203,12 @@ class SpcDoorEntryGrantedSensor(SpcDoorEntity, SensorEntity):
     def __init__(self, entry: ConfigEntry, door: Door) -> None:
         """Initialize the sensor device."""
         super().__init__(entry=entry, door=door, suffix="entry_granted")
-        self._attr_device_class = None    # There is no specific class for alarm
+        self._attr_device_class = None  # There is no specific class for alarm
 
     @property
     def native_value(self) -> str | None:
         return self._door.entry_granted
+
 
 class SpcDoorEntryDeniedSensor(SpcDoorEntity, SensorEntity):
     """Representation of entry denied user."""
@@ -236,11 +218,12 @@ class SpcDoorEntryDeniedSensor(SpcDoorEntity, SensorEntity):
     def __init__(self, entry: ConfigEntry, door: Door) -> None:
         """Initialize the sensor device."""
         super().__init__(entry=entry, door=door, suffix="entry_denied")
-        self._attr_device_class = None    # There is no specific class for alarm
+        self._attr_device_class = None  # There is no specific class for alarm
 
     @property
     def native_value(self) -> str | None:
         return self._door.entry_denied
+
 
 class SpcDoorExitGrantedSensor(SpcDoorEntity, SensorEntity):
     """Representation of exit granted user."""
@@ -250,11 +233,12 @@ class SpcDoorExitGrantedSensor(SpcDoorEntity, SensorEntity):
     def __init__(self, entry: ConfigEntry, door: Door) -> None:
         """Initialize the sensor device."""
         super().__init__(entry=entry, door=door, suffix="exit_granted")
-        self._attr_device_class = None    # There is no specific class for alarm
+        self._attr_device_class = None  # There is no specific class for alarm
 
     @property
     def native_value(self) -> str | None:
         return self._door.exit_granted
+
 
 class SpcDoorExitDeniedSensor(SpcDoorEntity, SensorEntity):
     """Representation of exit denied user."""
@@ -264,7 +248,7 @@ class SpcDoorExitDeniedSensor(SpcDoorEntity, SensorEntity):
     def __init__(self, entry: ConfigEntry, door: Door) -> None:
         """Initialize the sensor device."""
         super().__init__(entry=entry, door=door, suffix="exit_denied")
-        self._attr_device_class = None    # There is no specific class for alarm
+        self._attr_device_class = None  # There is no specific class for alarm
 
     @property
     def native_value(self) -> str | None:
