@@ -2,7 +2,7 @@
 panel_command:
   fields:
     device_id:
-      example:
+      example: "B80AD84C-11BB-4837-94AD-5A8E2DA792BE"
       required: true
       selector:
         device:
@@ -14,7 +14,7 @@ panel_command:
       selector:
         text:
     command:
-      example:
+      example: "set"
       required: true
       selector:
         select:
@@ -32,7 +32,7 @@ panel_command:
 area_command:
   fields:
     device_id:
-      example:
+      example: "B80AD84C-11BB-4837-94AD-5A8E2DA792BE"
       required: true
       selector:
         device:
@@ -44,7 +44,7 @@ area_command:
       selector:
         text:
     command:
-      example:
+      example: "set"
       required: true
       selector:
         select:
@@ -61,7 +61,7 @@ area_command:
 zone_command:
   fields:
     device_id:
-      example:
+      example: "B80AD84C-11BB-4837-94AD-5A8E2DA792BE"
       required: true
       selector:
         device:
@@ -73,7 +73,7 @@ zone_command:
       selector:
         text:
     command:
-      example:
+      example: "isolate"
       required: true
       selector:
         select:
@@ -87,7 +87,7 @@ zone_command:
 output_command:
   fields:
     device_id:
-      example:
+      example: "B80AD84C-11BB-4837-94AD-5A8E2DA792BE"
       required: true
       selector:
         device:
@@ -99,7 +99,7 @@ output_command:
       selector:
         text:
     command:
-      example:
+      example: "set"
       required: true
       selector:
         select:
@@ -111,7 +111,7 @@ output_command:
 door_command:
   fields:
     device_id:
-      example:
+      example: "B80AD84C-11BB-4837-94AD-5A8E2DA792BE"
       required: true
       selector:
         device:
@@ -123,7 +123,7 @@ door_command:
       selector:
         text:
     command:
-      example:
+      example: "lock"
       required: true
       selector:
         select:
@@ -134,32 +134,17 @@ door_command:
             - "set_normal_mode"
             - "lock"
 
-search_items:
-  fields:
-    start:
-      example:
-      required: true
-      selector:
-        device:
-          integration: spcbridge
-          model: "SPC Door"
-    end:
-      example: "1234"
-      required: true
-      selector:
-        text:
-
 get_panel_arm_status:
   fields:
     device_id:
-      example:
+      example: "B80AD84C-11BB-4837-94AD-5A8E2DA792BE"
       required: true
       selector:
         device:
           integration: spcbridge
           model: "SPC Panel"
     arm_mode:
-      example:
+      example: "set"
       required: true
       selector:
         select:
@@ -175,14 +160,14 @@ get_panel_arm_status:
 get_area_arm_status:
   fields:
     device_id:
-      example:
+      example: "B80AD84C-11BB-4837-94AD-5A8E2DA792BE"
       required: true
       selector:
         device:
           integration: spcbridge
           model: "SPC Alarm Area"
     arm_mode:
-      example:
+      example: "set"
       required: true
       selector:
         select:
