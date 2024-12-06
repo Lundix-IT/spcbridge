@@ -8,6 +8,8 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import Entity
 from pyspcbridge.area import Area
+from pyspcbridge.door import Door
+from pyspcbridge.output import Output
 from pyspcbridge.panel import Panel
 from pyspcbridge.zone import Zone
 
@@ -37,7 +39,7 @@ class SpcPanelEntity(Entity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device_unique_id)},
             name=panel.type,
-            model=f"SPC Panel",
+            model="SPC Panel",
             serial_number=panel.serial,
             sw_version=panel.firmware,
             manufacturer="Vanderbilt",
@@ -77,7 +79,7 @@ class SpcAreaEntity(Entity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device_unique_id)},
             name=area.name,
-            model=f"SPC Alarm Area",
+            model="SPC Alarm Area",
             manufacturer="Vanderbilt",
             via_device=(DOMAIN, entry.unique_id),
         )
@@ -115,7 +117,7 @@ class SpcZoneEntity(Entity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device_unique_id)},
             name=zone.name,
-            model=f"SPC Alarm Zone",
+            model="SPC Alarm Zone",
             manufacturer="Vanderbilt",
             via_device=(DOMAIN, entry.unique_id),
         )
@@ -153,7 +155,7 @@ class SpcOutputEntity(Entity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device_unique_id)},
             name=output.name,
-            model=f"SPC Output",
+            model="SPC Output",
             manufacturer="Vanderbilt",
             via_device=(DOMAIN, entry.unique_id),
         )
@@ -191,7 +193,7 @@ class SpcDoorEntity(Entity):
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, device_unique_id)},
             name=door.name,
-            model=f"SPC Door",
+            model="SPC Door",
             manufacturer="Vanderbilt",
             via_device=(DOMAIN, entry.unique_id),
         )

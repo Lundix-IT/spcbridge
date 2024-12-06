@@ -2,39 +2,25 @@
 
 import logging
 
-_LOGGER = logging.getLogger(__name__)
-
-from copy import deepcopy
-
-import httpx
 import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.const import (
     ATTR_CODE,
     ATTR_DEVICE_ID,
-    CONF_CODE,
     CONF_IP_ADDRESS,
     CONF_PORT,
     EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
-from homeassistant.core import (
-    Event,
-    HomeAssistant,
-    ServiceCall,
-    ServiceResponse,
-    SupportsResponse,
-)
+from homeassistant.core import Event, HomeAssistant, ServiceCall, SupportsResponse
 from homeassistant.exceptions import ConfigEntryNotReady, ServiceValidationError
 from homeassistant.helpers import (
     aiohttp_client,
     config_validation as cv,
     device_registry as dr,
-    entity_platform,
     entity_registry as er,
 )
 from homeassistant.helpers.dispatcher import async_dispatcher_send
-from homeassistant.helpers.event import async_call_later
 from homeassistant.helpers.httpx_client import get_async_client as get_http_client
 from homeassistant.helpers.service import async_register_admin_service
 from pyspcbridge import SpcBridge
@@ -60,6 +46,8 @@ from .const import (
     DOMAIN,
 )
 from .utils import get_host
+
+_LOGGER = logging.getLogger(__name__)
 
 DATA_API = "spc_api"
 
@@ -233,7 +221,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 data = await spc.async_get_arm_status(arm_mode)
                 return {"area": {item["area_id"]: item["reasons"] for item in data}}
             except Exception as err:
-                raise ServiceValidationError(err)
+                raise ServiceValidationError(err) from err
 
     async def async_get_area_arm_status(call: ServiceCall) -> dict | None:
         """Get area arm status"""
@@ -262,7 +250,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 data = await spc.async_get_arm_status(arm_mode, int(id[2]))
                 return {"area": {item["area_id"]: item["reasons"] for item in data}}
             except Exception as err:
-                raise ServiceValidationError(err)
+                raise ServiceValidationError(err) from err
 
     # Websockets client
     session = aiohttp_client.async_get_clientsession(hass, verify_ssl=False)
@@ -297,7 +285,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await spc.async_load_config()
     except Exception as err:
         _LOGGER.error("Failed to load configuration from SPC. Retrying. Err: %s", err)
-        raise ConfigEntryNotReady
+        raise ConfigEntryNotReady from err
 
     # Register SPC Bridge
     device_registry = dr.async_get(hass)

@@ -16,7 +16,7 @@ select = [
     # isort
     "I",
 ]
-ignore = ["E501"]
+ignore = ["E501", "SIM102"]
 
 [tool.ruff.lint.isort]
 combine-as-imports = true

@@ -12,12 +12,10 @@ import voluptuous as vol
 from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_IP_ADDRESS, CONF_PORT
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.data_entry_flow import section
+from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers import aiohttp_client
 from homeassistant.helpers.httpx_client import get_async_client as get_http_client
 from homeassistant.helpers.selector import (
-    BooleanSelector,
-    BooleanSelectorConfig,
     SelectSelector,
     SelectSelectorConfig,
     SelectSelectorMode,
@@ -80,12 +78,12 @@ def generate_schema(object_type, spc_objects) -> vol.Schema:
             schema[vol.Optional(f"label_{id}")] = f"User {id}, {name}"
             schema[vol.Optional(f"pincode_{id}", default="")] = TextSelector(
                 TextSelectorConfig(
-                    prefix=f"Keypad Code: ", type=TextSelectorType.PASSWORD
+                    prefix="Keypad Code: ", type=TextSelectorType.PASSWORD
                 )
             )
             schema[vol.Optional(f"password_{id}", default="")] = TextSelector(
                 TextSelectorConfig(
-                    prefix=f"SPC Password: ", type=TextSelectorType.PASSWORD
+                    prefix="SPC Password: ", type=TextSelectorType.PASSWORD
                 )
             )
 
@@ -137,7 +135,7 @@ def generate_schema(object_type, spc_objects) -> vol.Schema:
         options = []
         defaults = []
         if len(spc_objects) == 0:
-            schema[vol.Optional(f"no_outputs")] = ""
+            schema[vol.Optional("no_outputs")] = ""
         else:
             for _o in spc_objects:
                 id = _o["id"]
@@ -157,7 +155,7 @@ def generate_schema(object_type, spc_objects) -> vol.Schema:
         options = []
         defaults = []
         if len(spc_objects) == 0:
-            schema[vol.Optional(f"no_doors")] = ""
+            schema[vol.Optional("no_doors")] = ""
         else:
             for _o in spc_objects:
                 id = _o["id"]
@@ -190,7 +188,7 @@ def generate_option_schema(object_type, objects) -> vol.Schema:
                     vol.Optional(f"pincode_{id}", default=_o.get("ha_pincode", ""))
                 ] = TextSelector(
                     TextSelectorConfig(
-                        prefix=f"Keypad Code: ",
+                        prefix="Keypad Code: ",
                         type=TextSelectorType.PASSWORD,
                     )
                 )
@@ -198,7 +196,7 @@ def generate_option_schema(object_type, objects) -> vol.Schema:
                     vol.Optional(f"password_{id}", default=_o.get("spc_password", ""))
                 ] = TextSelector(
                     TextSelectorConfig(
-                        prefix=f"SPC Password: ", type=TextSelectorType.PASSWORD
+                        prefix="SPC Password: ", type=TextSelectorType.PASSWORD
                     )
                 )
 
@@ -253,7 +251,7 @@ def generate_option_schema(object_type, objects) -> vol.Schema:
         defaults = []
 
         if len(objects.values()) == 0:
-            schema[vol.Optional(f"no_outputs")] = ""
+            schema[vol.Optional("no_outputs")] = ""
         else:
             for _o in objects.values():
                 id = _o.get("id")
@@ -276,7 +274,7 @@ def generate_option_schema(object_type, objects) -> vol.Schema:
         defaults = []
 
         if len(objects.values()) == 0:
-            schema[vol.Optional(f"no_doors")] = ""
+            schema[vol.Optional("no_doors")] = ""
         else:
             for _o in objects.values():
                 id = _o.get("id")
@@ -302,21 +300,23 @@ def zone_type_to_name(zone_type) -> str:
 
 
 def include_mode_to_name(include_mode) -> str:
-    if include_mode == "include":
-        return "<b>Include</b>"
-    elif include_mode == "exclude":
-        return "<b>Exclude</b>"
-    elif include_mode == "motion":
-        return "<b>Include as a Motion sensor</b>"
-    elif include_mode == "door":
-        return "<b>Include as a Door sensor</b>"
-    elif include_mode == "window":
-        return "<b>Include as a Window sensor</b>"
-    elif include_mode == "smoke":
-        return "<b>Include as a Smoke sensor</b>"
-    elif include_mode == "other":
-        return "<b>Include as a Other sensor</b>"
-    return "Unknown"
+    match include_mode:
+        case "include":
+            return "<b>Include</b>"
+        case "exclude":
+            return "<b>Exclude</b>"
+        case "motion":
+            return "<b>Include as a Motion sensor</b>"
+        case "door":
+            return "<b>Include as a Door sensor</b>"
+        case "window":
+            return "<b>Include as a Window sensor</b>"
+        case "smoke":
+            return "<b>Include as a Smoke sensor</b>"
+        case "other":
+            return "<b>Include as a Other sensor</b>"
+        case _:
+            return "Unknown"
 
 
 def generate_html(step_id, objects) -> str:
@@ -332,9 +332,9 @@ def generate_html(step_id, objects) -> str:
                 <div>
                   <h3>Panel</h3>
                   <table width=100%>
-                    <tr><td>Serial number:</td><td>{p.get("serial", "-")}</td></tr> 
-                    <tr><td width=30%>Type:</td><td>{p.get("type", "-")}</td></tr> 
-                    <tr><td>Model:</td><td>{p.get("model", "-")}</td></tr> 
+                    <tr><td>Serial number:</td><td>{p.get("serial", "-")}</td></tr>
+                    <tr><td width=30%>Type:</td><td>{p.get("type", "-")}</td></tr>
+                    <tr><td>Model:</td><td>{p.get("model", "-")}</td></tr>
                   </table>
                 </div>
                 <br>
@@ -389,7 +389,7 @@ def generate_html(step_id, objects) -> str:
                 <div>
                   <h3>Panel</h3>
                   <table width=100%>
-                    <tr><td>Serial number:</td><td>{p.get("serial", "-")}</td></tr> 
+                    <tr><td>Serial number:</td><td>{p.get("serial", "-")}</td></tr>
                   </table>
                 </div>
                 <br>
@@ -465,7 +465,7 @@ async def test_connection(hass: HomeAssistant, bridge_data: dict):
         _LOGGER.error("Test connection failed")
         if err:
             _LOGGER.error(err)
-        raise CannotConnect
+        raise CannotConnect from err
 
 
 def validate_spc_users_data(data: dict):
@@ -475,19 +475,19 @@ def validate_spc_users_data(data: dict):
     SPC_PASSWORD_SCHEMA = vol.All(vol.Coerce(str), vol.Length(min=1, max=16))
     for user in data.values():
         id = user.get("id")
-        name = user.get("name", "")
+        _name = user.get("name", "")
         ha_pincode = user.get("ha_pincode", "")
         if ha_pincode != "":
             try:
                 HA_PINCODE_SCHEMA(ha_pincode)
-            except Exception as err:
+            except Exception:
                 errors[f"pincode_{id}"] = "Invalid Keypad code (1 to 10 digits)"
 
         spc_password = user.get("spc_password", "")
         if spc_password != "":
             try:
                 SPC_PASSWORD_SCHEMA(spc_password)
-            except Exception as err:
+            except Exception:
                 errors[f"password_{id}"] = "Invalid SPC Password (1 to 16 characters)"
 
     return errors
@@ -1148,10 +1148,6 @@ class CannotConnect(exceptions.HomeAssistantError):
 
 class InvalidIpAddress(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid ip address."""
-
-
-class CannotConnect(exceptions.HomeAssistantError):
-    """Error to indicate we cannot connect."""
 
 
 class InvalidKeypadCode(exceptions.HomeAssistantError):

@@ -4,18 +4,12 @@ from __future__ import annotations
 
 import logging
 
-_LOGGER = logging.getLogger(__name__)
-
-import voluptuous as vol
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import ATTR_ENTITY_ID, CONF_CODE
-from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers import config_validation as cv, entity_platform
-from homeassistant.helpers.config_validation import make_entity_service_schema
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from pyspcbridge import SpcBridge
 from pyspcbridge.area import Area
@@ -30,6 +24,8 @@ from .const import (
     DOMAIN,
 )
 from .entity import SpcAreaEntity, SpcOutputEntity, SpcPanelEntity, SpcZoneEntity
+
+_LOGGER = logging.getLogger(__name__)
 
 
 def _get_device_class(include_mode) -> BinarySensorDeviceClass | None:

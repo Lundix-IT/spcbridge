@@ -4,26 +4,21 @@ from __future__ import annotations
 
 import logging
 
-_LOGGER = logging.getLogger(__name__)
-
-import voluptuous as vol
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import ATTR_ENTITY_ID, CONF_CODE, EntityCategory
-from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers import config_validation as cv, entity_platform
-from homeassistant.helpers.config_validation import make_entity_service_schema
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util.json import json_loads
 from pyspcbridge import SpcBridge
 from pyspcbridge.area import Area
-from pyspcbridge.const import ArmMode
 from pyspcbridge.door import Door
 from pyspcbridge.panel import Panel
 
 from .const import CONF_AREAS_INCLUDE_DATA, CONF_DOORS_INCLUDE_DATA, DOMAIN
 from .entity import SpcAreaEntity, SpcDoorEntity, SpcPanelEntity
 from .utils import arm_mode_to_name, door_mode_to_name
+
+_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
