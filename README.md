@@ -1,10 +1,10 @@
 # spcbridge
 ## Prerequisites
 - Vanderbilt SPC panel, firmware version >= 3.8.5
-- [SPC Bridge Generic Lite](https://www.lundix.se/spc-bridge-generic-lite/) or [SPC Bridge Generic](https://www.lundix.se/spc-bridge-generic/) from Lundix IT. 
+- [SPC Bridge Generic Lite](https://www.lundix.se/spc-bridge-generic-lite/) or [SPC Bridge Generic](https://www.lundix.se/spc-bridge-generic/) from Lundix IT.
 - Home Assistant system, Core version >= 2024.9.0, Frontend version >= 20240809.0
 
-> [!NOTE] 
+> [!NOTE]
 > The software module **SPC Web Gateway** isn't supported by this integration.
 
 ## Introduction
@@ -17,7 +17,7 @@ To integrate your security system with HA, you will need the SPC Bridge Generic 
 The SPC Bridge HA integration consists of following parts:
 - SPC Bridge component (spcbridge): a HA custom component.
 - SPC Bridge library (pyspcbridge): a python library for interacting with the SPC Bridge REST/Websocket API.
-- SPC Bridge Card (spcbridge-card): a HA custom card to controlling the SPC alarm system.  
+- SPC Bridge Card (spcbridge-card): a HA custom card to controlling the SPC alarm system.
 
 ### Features
 - Support for SPC areas, zones, outputs (mapping gates or virtual zones) and doors
@@ -27,10 +27,18 @@ The SPC Bridge HA integration consists of following parts:
 - Support for multiple SPC systems (however a SPC Bridge is required for each SPC system)
 
 ## Installation
-Before proceeding with the installation of this custom integration, make sure you have the the SPC Bridge Generic (lite) installed and properly configured. 
-Additionally, you will need access to the Home Assistant filesystem, such as through the SSH add-on.
 
-1. Download the <a href="https://github.com/Lundix-IT/spcbridge/releases">latest release</a> of the **spcbridge.zip** file and extract it into the `config/custom_components` directory in your HA installation. (If the `custom_components` directory does not exist, create it.)
+Before proceeding with the installation of this custom integration, make sure you have the the SPC Bridge Generic (lite) installed and properly configured.
+
+### HACS
+
+Add `Lundix-IT/spcbridge` as a custom repostiory in [HACS](https://www.hacs.xyz/) and add the component `Vanderbilt SPC Bridge`.
+
+### Manual installation
+
+You can also install the component manually as described below. You will need access to the Home Assistant filesystem, e.g., via the SSH add-on.
+
+1. Download the [latest release](https://github.com/Lundix-IT/spcbridge/releases) of the **spcbridge.zip** file and extract it into the `config/custom_components` directory in your HA installation. (If the `custom_components` directory does not exist, create it.)
 2. Restart HA to load the integration into HA.
 3. Go to **Settings -> Devices & services** and click on the **Add integration** button. Look for SPC Bridge and click to add it.
 4. Follow the configuration instructions.
@@ -42,8 +50,8 @@ To be able to identify the SPC user by the entered Keypad code (or user code in 
 Enter the SPC user's ID followed by their PIN code. For example:
 - For a user with ID 3 and PIN code 1289, enter 31289.
 - For a user with ID 21 and PIN code 987077, enter 21987077.
-> [!NOTE] 
-> This method is recommended because SPC user credentials do not need to be stored in the Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system. The user profile for the user also need to have **User Rights - System > Web Access** enabled. 
+> [!NOTE]
+> This method is recommended because SPC user credentials do not need to be stored in the Home Assistant system, but it only works for users who have not been assigned a web password in the SPC system. The user profile for the user also need to have **User Rights - System > Web Access** enabled.
 
 #### Method 2 - Link Keypad Codes to SPC Users
 Manually link the Keypad codes to the corresponding SPC credentials. If you choose this method, you have to define the linking table in the configuration of the integration.
@@ -51,7 +59,7 @@ Manually link the Keypad codes to the corresponding SPC credentials. If you choo
 ## Devices
 ### SPC Bridge
 **Device Name:** SPC Bridge<br>
-Logical representation of the SPC Bridge. Has no entities. 
+Logical representation of the SPC Bridge. Has no entities.
 
 ### Alarm System (panel)
 **Device Name:** SPC 4000/5000/6000<br>
@@ -92,7 +100,7 @@ Following commands are available for controlling a Alarm System (panel):
 - Arm delayed and bypass open zones (all areas)
 - Clear all alerts
 
-To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Panel Command** and select an Alarm System and command. You need also enter a user code, see section **User and PIN codes** above. 
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Panel Command** and select an Alarm System and command. You need also enter a user code, see section **User and PIN codes** above.
 
 ### Alarm Areas
 **Device Name:** Area name defined in SPC<br>
@@ -111,7 +119,7 @@ Logical representation of the alarm areas.
 The entity `Arm mode` has following extra attributes that can be used for automation:
 | Attribute               | Values                                 | Description                                                |
 | ----------------------- | ---------------------------------------| ---------------------------------------------------------- |
-| `Last disarmed user`    | SPC user name                          | The name of the SPC user who last disarmed the area        | 
+| `Last disarmed user`    | SPC user name                          | The name of the SPC user who last disarmed the area        |
 | `Last armed user`       | SPC user name                          | The name of the SPC user who last armed (fullset) the area    |
 
 #### Automation Triggers
@@ -141,7 +149,7 @@ Following commands are available for controlling alarm areas:
 - Arm delayed
 - Arm delayed and bypass open zones
 
-To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Area Command** and select an Alarm Area and command. You need also enter a user code, see section **User and PIN codes** above. 
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Area Command** and select an Alarm Area and command. You need also enter a user code, see section **User and PIN codes** above.
 
 ### Alarm Zones
 **Device Name:** Zone name defined in SPC<br>
@@ -183,7 +191,7 @@ Following commands are available for controlling alarm zones:
 - Isolate
 - De-isolate
 
-To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Zone Command** and select an Alarm Zone and command. You need also enter a user code, see section **User and PIN codes** above. 
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Zone Command** and select an Alarm Zone and command. You need also enter a user code, see section **User and PIN codes** above.
 
 ### Outputs (mapping gates and virtual zones)
 **Device Name:** Name of mapping gate defined in SPC<br>
@@ -206,7 +214,7 @@ Following commands are available for controlling outputs:
 - On
 - Off
 
-To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Output Command** and select an Output and command. You need also enter a user code, see section **User and PIN codes** above. 
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Output Command** and select an Output and command. You need also enter a user code, see section **User and PIN codes** above.
 
 ### Door Locks
 **Device Name:** Name of door defined in SPC<br>
@@ -235,5 +243,4 @@ Following commands are available for controlling door locks:
 - Set door mode to Normal
 - Set door mode to Locked
 
-To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Door Command** and select a Door and command. You need also enter a user code, see section **User and PIN codes** above. 
-
+To define an action, click **Add action -> Other actions -> Vanderbilt SPC Bridge -> SPC Door Command** and select a Door and command. You need also enter a user code, see section **User and PIN codes** above.
