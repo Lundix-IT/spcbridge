@@ -671,13 +671,15 @@ class SpcConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if not errors:
                 users_data = {}
                 for user in self.spc_data["users"]:
-                    ud = {
-                        "id": user.id,
-                        "name": user.get("name"),
-                        "ha_pincode": user_input.get(f"pincode_{user.id}", ""),
-                        "spc_password": user_input.get(f"password_{user.id}", ""),
-                    }
-                    users_data[str(user.id)] = ud
+                    id = user.get("id", 0)
+                    if id > 0:
+                        ud = {
+                            "id": id,
+                            "name": user.get("name"),
+                            "ha_pincode": user_input.get(f"pincode_{id}", ""),
+                            "spc_password": user_input.get(f"password_{id}", "")
+                        }
+                        users_data[str(id)] = ud
 
                 errors = validate_spc_users_data(users_data)
                 if not errors:
