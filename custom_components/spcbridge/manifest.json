@@ -9,5 +9,5 @@
   "issue_tracker": "https://github.com/Lundix-IT/spcbridge/issues",
   "loggers": ["pyspcbridge"],
   "requirements": ["pyspcbridge==0.6.2"],
-  "version": "0.6.1"
+  "version": "0.6.2"
 }
