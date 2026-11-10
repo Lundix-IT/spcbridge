@@ -14,7 +14,7 @@
     "step": {
       "user": {
         "title": "SPC Bridge",
-        "description": "To be able to integrate the Vanderbilt SPC alarm system, you will need a SPC Bridge from Lundix IT, available at www.lundix.se. Ensure that the SPC Bridge is properly configured and functioning before proceeding.",
+        "description": "To be able to integrate the Vanderbilt SPC alarm system, you will need a SPC Bridge from Lundix IT AB. Ensure that the SPC Bridge is properly configured and functioning before proceeding.",
         "data": {
           "ip_address": "SPC Bridge IP address",
           "port": "SPC Bridge Port"
@@ -117,7 +117,7 @@
       },
       "option_bridge": {
         "title": "SPC Bridge",
-        "description": "To be able to integrate the Vanderbilt SPC alarm system, you will need a SPC Bridge from Lundix IT, available at www.lundix.se. Ensure that the SPC Bridge is properly configured and functioning before proceeding.",
+        "description": "To be able to integrate the Vanderbilt SPC alarm system, you will need a SPC Bridge from Lundix IT AB. Ensure that the SPC Bridge is properly configured and functioning before proceeding.",
         "data": {
           "ip_address": "SPC Bridge IP address",
           "port": "SPC Bridge Port"
