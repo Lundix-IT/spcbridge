@@ -69,10 +69,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     async def async_update_callback(command, panel_id, spc_objects=None):
         if command == "reload":
             device_registry = dr.async_get(hass)
-            if device := device_registry.async_get_device(
-                identifiers={(DOMAIN, f"{panel_id}-panel-1")}
+            if device := device_registry.async_get_device_by_identifier(
+                (DOMAIN, f"{panel_id}-panel-1"), entry.entry_id
             ):
-                await hass.config_entries.async_reload(device.primary_config_entry)
+                await hass.config_entries.async_reload(device.config_entry_id)
 
         if command == "update":
             for _object in spc_objects:
@@ -111,7 +111,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "panel":
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._panel.async_command(command, code)
             if isinstance(err, dict):
                 if err.get("code", 0) > 0:
@@ -135,7 +135,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "area" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._areas[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -153,7 +153,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "zone" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._zones[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -171,7 +171,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "output" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._outputs[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -189,7 +189,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "door" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._doors[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -217,7 +217,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         id = unique_id.split("-")
         if arm_mode != "" and id[1] == "panel":
             try:
-                spc = hass.data[DOMAIN][device_info.primary_config_entry]
+                spc = hass.data[DOMAIN][device_info.config_entry_id]
                 data = await spc.async_get_arm_status(arm_mode)
                 return {"area": {item["area_id"]: item["reasons"] for item in data}}
             except Exception as err:
@@ -246,7 +246,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         id = unique_id.split("-")
         if arm_mode != "" and id[1] == "area" and int(id[2]) > 0:
             try:
-                spc = hass.data[DOMAIN][device_info.primary_config_entry]
+                spc = hass.data[DOMAIN][device_info.config_entry_id]
                 data = await spc.async_get_arm_status(arm_mode, int(id[2]))
                 return {"area": {item["area_id"]: item["reasons"] for item in data}}
             except Exception as err:
@@ -289,7 +289,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     # Register SPC Bridge
     device_registry = dr.async_get(hass)
-    device_registry.async_get_or_create(
+    bridge_device = device_registry.async_get_or_create(
         config_entry_id=entry.entry_id,
         identifiers={(DOMAIN, entry.unique_id)},
         manufacturer="Lundix IT",
@@ -297,6 +297,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         name="SPC Bridge",
         configuration_url=f"http://{get_host(entry.options[CONF_IP_ADDRESS])}",
     )
+    # Device id of the SPC Bridge, used as via_device_id by the entity devices
+    entry.runtime_data = bridge_device.id
 
     # Remove devices that have been manually excluded or changed in the
     # configure flow
@@ -471,16 +473,16 @@ async def async_remove_changed_devices(
         for k, v in entry.options[CONF_AREAS_INCLUDE_DATA].items():
             if v != "include":
                 device_unique_id = f"{entry.unique_id}-area-{k}"
-                if device := device_registry.async_get_device(
-                    identifiers={(DOMAIN, device_unique_id)}
+                if device := device_registry.async_get_device_by_identifier(
+                    (DOMAIN, device_unique_id), entry.entry_id
                 ):
                     device_registry.async_remove_device(device.id)
 
         for k, v in entry.options[CONF_ZONES_INCLUDE_DATA].items():
             device_unique_id = f"{entry.unique_id}-zone-{k}"
             entity_unique_id = f"{entry.unique_id}-zone-{k}-state"
-            if device := device_registry.async_get_device(
-                identifiers={(DOMAIN, device_unique_id)}
+            if device := device_registry.async_get_device_by_identifier(
+                (DOMAIN, device_unique_id), entry.entry_id
             ):
                 for ent in er.async_entries_for_device(
                     entity_registry, device.id, True
@@ -492,16 +494,16 @@ async def async_remove_changed_devices(
         for k, v in entry.options[CONF_OUTPUTS_INCLUDE_DATA].items():
             if v != "include":
                 device_unique_id = f"{entry.unique_id}-output-{k}"
-                if device := device_registry.async_get_device(
-                    identifiers={(DOMAIN, device_unique_id)}
+                if device := device_registry.async_get_device_by_identifier(
+                    (DOMAIN, device_unique_id), entry.entry_id
                 ):
                     device_registry.async_remove_device(device.id)
 
         for k, v in entry.options[CONF_DOORS_INCLUDE_DATA].items():
             if v != "include":
                 device_unique_id = f"{entry.unique_id}-door-{k}"
-                if device := device_registry.async_get_device(
-                    identifiers={(DOMAIN, device_unique_id)}
+                if device := device_registry.async_get_device_by_identifier(
+                    (DOMAIN, device_unique_id), entry.entry_id
                 ):
                     device_registry.async_remove_device(device.id)
 
