@@ -72,7 +72,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             if device := device_registry.async_get_device_by_identifier(
                 (DOMAIN, f"{panel_id}-panel-1"), entry.entry_id
             ):
-                await hass.config_entries.async_reload(device.primary_config_entry)
+                await hass.config_entries.async_reload(device.config_entry_id)
 
         if command == "update":
             for _object in spc_objects:
@@ -111,7 +111,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "panel":
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._panel.async_command(command, code)
             if isinstance(err, dict):
                 if err.get("code", 0) > 0:
@@ -135,7 +135,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "area" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._areas[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -153,7 +153,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "zone" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._zones[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -171,7 +171,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "output" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._outputs[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -189,7 +189,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         if id[1] == "door" and int(id[2]) > 0:
             command = call.data[ATTR_COMMAND]
             code = call.data[ATTR_CODE]
-            spc = hass.data[DOMAIN][device_info.primary_config_entry]
+            spc = hass.data[DOMAIN][device_info.config_entry_id]
             err = await spc._doors[int(id[2])].async_command(command, code)
             if err["code"] > 0:
                 raise ServiceValidationError(err["message"])
@@ -217,7 +217,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         id = unique_id.split("-")
         if arm_mode != "" and id[1] == "panel":
             try:
-                spc = hass.data[DOMAIN][device_info.primary_config_entry]
+                spc = hass.data[DOMAIN][device_info.config_entry_id]
                 data = await spc.async_get_arm_status(arm_mode)
                 return {"area": {item["area_id"]: item["reasons"] for item in data}}
             except Exception as err:
@@ -246,7 +246,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         id = unique_id.split("-")
         if arm_mode != "" and id[1] == "area" and int(id[2]) > 0:
             try:
-                spc = hass.data[DOMAIN][device_info.primary_config_entry]
+                spc = hass.data[DOMAIN][device_info.config_entry_id]
                 data = await spc.async_get_arm_status(arm_mode, int(id[2]))
                 return {"area": {item["area_id"]: item["reasons"] for item in data}}
             except Exception as err:
