@@ -69,8 +69,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     async def async_update_callback(command, panel_id, spc_objects=None):
         if command == "reload":
             device_registry = dr.async_get(hass)
-            if device := device_registry.async_get_device(
-                identifiers={(DOMAIN, f"{panel_id}-panel-1")}
+            if device := device_registry.async_get_device_by_identifier(
+                (DOMAIN, f"{panel_id}-panel-1"), entry.entry_id
             ):
                 await hass.config_entries.async_reload(device.primary_config_entry)
 
@@ -289,7 +289,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     # Register SPC Bridge
     device_registry = dr.async_get(hass)
-    device_registry.async_get_or_create(
+    bridge_device = device_registry.async_get_or_create(
         config_entry_id=entry.entry_id,
         identifiers={(DOMAIN, entry.unique_id)},
         manufacturer="Lundix IT",
@@ -297,6 +297,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         name="SPC Bridge",
         configuration_url=f"http://{get_host(entry.options[CONF_IP_ADDRESS])}",
     )
+    # Device id of the SPC Bridge, used as via_device_id by the entity devices
+    entry.runtime_data = bridge_device.id
 
     # Remove devices that have been manually excluded or changed in the
     # configure flow
@@ -471,16 +473,16 @@ async def async_remove_changed_devices(
         for k, v in entry.options[CONF_AREAS_INCLUDE_DATA].items():
             if v != "include":
                 device_unique_id = f"{entry.unique_id}-area-{k}"
-                if device := device_registry.async_get_device(
-                    identifiers={(DOMAIN, device_unique_id)}
+                if device := device_registry.async_get_device_by_identifier(
+                    (DOMAIN, device_unique_id), entry.entry_id
                 ):
                     device_registry.async_remove_device(device.id)
 
         for k, v in entry.options[CONF_ZONES_INCLUDE_DATA].items():
             device_unique_id = f"{entry.unique_id}-zone-{k}"
             entity_unique_id = f"{entry.unique_id}-zone-{k}-state"
-            if device := device_registry.async_get_device(
-                identifiers={(DOMAIN, device_unique_id)}
+            if device := device_registry.async_get_device_by_identifier(
+                (DOMAIN, device_unique_id), entry.entry_id
             ):
                 for ent in er.async_entries_for_device(
                     entity_registry, device.id, True
@@ -492,16 +494,16 @@ async def async_remove_changed_devices(
         for k, v in entry.options[CONF_OUTPUTS_INCLUDE_DATA].items():
             if v != "include":
                 device_unique_id = f"{entry.unique_id}-output-{k}"
-                if device := device_registry.async_get_device(
-                    identifiers={(DOMAIN, device_unique_id)}
+                if device := device_registry.async_get_device_by_identifier(
+                    (DOMAIN, device_unique_id), entry.entry_id
                 ):
                     device_registry.async_remove_device(device.id)
 
         for k, v in entry.options[CONF_DOORS_INCLUDE_DATA].items():
             if v != "include":
                 device_unique_id = f"{entry.unique_id}-door-{k}"
-                if device := device_registry.async_get_device(
-                    identifiers={(DOMAIN, device_unique_id)}
+                if device := device_registry.async_get_device_by_identifier(
+                    (DOMAIN, device_unique_id), entry.entry_id
                 ):
                     device_registry.async_remove_device(device.id)
 
